@@ -1,1 +1,1 @@
-# home_work_JavaScript
+# Homework_JavaScript basic_course 
