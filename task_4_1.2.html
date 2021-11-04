@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        'use strict'
+        /*1.2 (это обязательное задание) Сделайте в стиле es5, а затем в стиле es6 (по аналогии из дополнительных
+        видео -> 3 примеры наследования -> механика наследования),
+        а) конструктор Post, который принимает параметры author, text, date и сохраняет их как свойства объекта. Объекты
+        типа Post должны иметь метод edit, который будет принимать текст и записывать его в свойство text объекта.
+        б) конструктор AttachedPost, который принимает параметры author, text, date. Проинициализируйте эти свойства с
+        помощью конструктора Post, чтобы не дублировать код. Также в конструкторе AttachedPost должно создаваться
+        свойство highlighted со значением false. Унаследуйте в объектах типа AttachedPost методы из Post.
+        Объекты типа AttachedPost должны иметь метод makeTextHighlighted, который будет назначать свойству
+        highlighted значение true*/
+
+        // es5
+
+        function Post(author, text, date) {
+            this.author = author;
+            this.text = text;
+            this.date = date;
+        }
+
+        let post1 = new Post('Alex', 'Lorem...', '10.05.2021');
+
+        Post.prototype.edit = function () {
+            this.text = prompt('Введите текст');
+        }
+
+        post1.edit();
+        console.log(post1);
+        
+        
+        function AttachePost(author, text, date, highlighted) {
+            Post.call(this, author, text, date);
+            this.highlighted = highlighted;
+        }
+
+        
+        AttachePost.prototype = Object.create(Post.prototype);
+        AttachePost.prototype.constructor = AttachePost;
+
+        AttachePost.prototype.makeTextHighlighted = function () {
+            this.highlighted = true;
+        }
+
+        let attachePost1 = new AttachePost('Jan', 'Lorem in', '21.11.2021', 'false');
+        attachePost1.makeTextHighlighted();
+        attachePost1.edit();
+        console.log(attachePost1);
+
+        // es6
+
+        class Post {
+            constructor(author, text, date) {
+                this.author = author;
+                this.text = text;
+                this.date = date;
+            }
+
+            edit() {
+                this.text = prompt('Введите текст');
+            }
+        }
+
+        let post2 = new Post('Alex', 'Lorem...', '10.05.2021');
+        post2.edit();
+        console.log(post2);
+
+        class AttachedPost extends Post {
+            constructor(author, text, date, highlighted) {
+                super(author, text, date);
+                this.highlighted = false;
+            }
+
+            makeTextHighlighted() {
+                this.highlighted = true;
+            }
+        }
+
+        let attachedPost2 = new AttachedPost('Jan', 'Lorem in', '21.11.2021', 'false');
+        attachedPost2.makeTextHighlighted();
+        attachedPost2.edit();
+        console.log(attachedPost2);
+    </script>
+</body>
+
+</html>
